@@ -1,0 +1,87 @@
+In [2]: response.xpath('//title/text()').getall()
+Out[2]: ['Example website']
+
+In [3]: response.xpath('//title/text()').get()
+Out[3]: 'Example website'
+
+In [5]: response.xpath('//title/text()').extract_first()
+Out[5]: 'Example website'
+
+In [6]: response.xpath('//title/text()').extract()
+Out[6]: ['Example website']
+
+In [9]: response.xpath('//div[@id="images"]/a/text()').extract_first()
+Out[9]: 'Name: My image 1 '
+
+In [10]: response.xpath('//div[@id="images"]/a/text()').extract()
+Out[10]:
+['Name: My image 1 ',
+ 'Name: My image 2 ',
+ 'Name: My image 3 ',
+ 'Name: My image 4 ',
+ 'Name: My image 5 ']
+
+In [17]: response.css('title::text').get()
+Out[17]: 'Example website'
+
+In [18]: response.css('title::text').getall()
+Out[18]: ['Example website']
+
+
+In [20]: response.css('div#images > a::text').getall()
+Out[20]:
+['Name: My image 1 ',
+ 'Name: My image 2 ',
+ 'Name: My image 3 ',
+ 'Name: My image 4 ',
+ 'Name: My image 5 ']
+
+In [21]: response.css('div.images > a::text').getall()
+Out[21]: []
+
+In [22]: response.css('div.images > a::text').get()
+
+In [23]: response.css('div.images > a::text').get(default="Khong tim thay")
+Out[23]: 'Khong tim thay'
+
+In [27]: response.xpath('//a/@href').extract()
+Out[27]: ['image1.html', 'image2.html', 'image3.html', 'image4.html', 'image5.html']
+
+In [29]: response.css('a::attr(href)').extract()
+Out[29]: ['image1.html', 'image2.html', 'image3.html', 'image4.html', 'image5.html']
+
+In [34]: response.css('a').attrib['href']
+Out[34]: 'image1.html'
+
+In [38]: response.xpath('//a[contains(@href, "image")]/@href').extract()
+Out[38]: ['image1.html', 'image2.html', 'image3.html', 'image4.html', 'image5.html']
+
+In [40]: response.css('a[href*=image]::attr(href)').extract()
+Out[40]: ['image1.html', 'image2.html', 'image3.html', 'image4.html', 'image5.html']
+
+In [42]: response.xpath('//a[contains(@href, "image")]/img/@src').extract()
+Out[42]:
+['image1_thumb.jpg',
+ 'image2_thumb.jpg',
+ 'image3_thumb.jpg',
+ 'image4_thumb.jpg',
+ 'image5_thumb.jpg']
+
+In [43]: response.css('a[href*=image] > img::attr(src)').extract()
+Out[43]:
+['image1_thumb.jpg',
+ 'image2_thumb.jpg',
+ 'image3_thumb.jpg',
+ 'image4_thumb.jpg',
+ 'image5_thumb.jpg']
+
+
+In [44]: links = response.xpath('//a[contains(@href, "image")]')
+In [46]: for link in links:
+    ...:     print(link.xpath('@href').get())
+    ...:
+image1.html
+image2.html
+image3.html
+image4.html
+image5.html
